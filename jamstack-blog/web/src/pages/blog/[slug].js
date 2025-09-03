@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { motion } from 'framer-motion'
-import { getPost, getPosts } from '../../lib/sanity'
+import { getPostBySlug, getAllPostSlugs } from '../../lib/sanity'
 import { urlFor } from '../../lib/sanity'
 import ReactMarkdown from 'react-markdown'
 
@@ -47,7 +47,7 @@ export default function BlogPost({ post }) {
 }
 
 export async function getStaticPaths() {
-  const posts = await getPosts()
+  const posts = await getAllPostSlugs()
   const paths = posts.map((post) => ({
     params: { slug: post.slug.current },
   }))
@@ -59,7 +59,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getPost(params.slug)
+  const post = await getPostBySlug(params.slug)
   return {
     props: {
       post,
