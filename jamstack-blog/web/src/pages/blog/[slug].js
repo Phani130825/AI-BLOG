@@ -47,14 +47,22 @@ export default function BlogPost({ post }) {
 }
 
 export async function getStaticPaths() {
-  const posts = await getAllPostSlugs()
-  const paths = posts.map((post) => ({
-    params: { slug: post.slug.current },
-  }))
+  try {
+    const posts = await getAllPostSlugs()
+    const paths = posts.map((post) => ({
+      params: { slug: post.slug.current },
+    }))
 
-  return {
-    paths,
-    fallback: 'blocking',
+    return {
+      paths,
+      fallback: 'blocking',
+    }
+  } catch (error) {
+    console.error('Error fetching post slugs:', error)
+    return {
+      paths: [],
+      fallback: 'blocking',
+    }
   }
 }
 

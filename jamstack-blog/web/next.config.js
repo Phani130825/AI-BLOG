@@ -5,9 +5,6 @@ const nextConfig = {
   images: {
     domains: ['cdn.sanity.io'],
   },
-  experimental: {
-    appDir: false, // Using pages directory
-  },
 }
 
 module.exports = nextConfig
