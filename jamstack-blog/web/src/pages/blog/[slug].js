@@ -67,11 +67,18 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const post = await client.fetch(getPostBySlug, { slug: params.slug })
-  return {
-    props: {
-      post,
-    },
-    revalidate: 60,
+  try {
+    const post = await client.fetch(getPostBySlug, { slug: params.slug })
+    return {
+      props: {
+        post,
+      },
+      revalidate: 60,
+    }
+  } catch (error) {
+    console.error('Error fetching post:', error)
+    return {
+      notFound: true,
+    }
   }
 }
